@@ -1,4 +1,5 @@
 package com.system.realize;
+import com.system.Exception.Same_StudentNumber_False;
 import com.system.Exception.student_null_Exception;
 import com.system.crud_interface.crud;
 
@@ -9,8 +10,6 @@ public class function implements crud {
 
     private ArrayList<Student> students = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
-
-
 
     //get方法
     public ArrayList<Student> getStudents() {
@@ -40,7 +39,7 @@ public class function implements crud {
                     }
                 }while (true);
             } else {
-                throw new student_null_Exception("学生列表为空，无法删除");
+                throw new student_null_Exception("找不到该学生，无法删除,请检查是否输入有误");
             }
     }
 
@@ -50,10 +49,10 @@ public class function implements crud {
     }
 
     @Override
-    public void trans_student(String s) {
+    public void trans_student(String s) throws Same_StudentNumber_False {
         boolean running = true;
         for (Student ss : students) {
-            if (s.equals(ss.getName())) {
+            if (s.equals(ss.getStudent_number())) {
                 while (true) {
                     System.out.println("请输入你想修改的选项:");
                     System.out.println("1.名字");
@@ -72,8 +71,15 @@ public class function implements crud {
                         case 2:
                             scanner.nextLine();
                             System.out.print("请输入最新的学号: ");
-                            ss.setStudent_number(scanner.nextLine());
+                            String modify_student_number = scanner.nextLine();
+                            for (Student student:students){
+                                if (modify_student_number.equals(student.getStudent_number())){
+                                    throw new Same_StudentNumber_False("学生学号重复,请重新输入");
+                                }
+                            }
+                            ss.setStudent_number(modify_student_number);
                             System.out.println("修改成功!");
+
                             break;
 
                         case 3:
@@ -98,7 +104,7 @@ public class function implements crud {
                         System.out.println("已退出修改");
                         return;  // 直接返回，退出方法，跳回主菜单
                     } else if (answer.equals("是")) {
-                        System.out.print("请输入想要更改的学生姓名: ");
+                        System.out.print("请输入想要更改的学生学号: ");
                         trans_student(scanner.nextLine());
                         return;
                     }
