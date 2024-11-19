@@ -95,6 +95,12 @@ public class Main {
                     }
                     break;
 
+
+
+
+
+
+
                 case 2:
                     scanner1.nextLine();
                     try {
@@ -104,14 +110,6 @@ public class Main {
                     } catch (student_null_Exception e) {
                         System.out.println(e.getMessage());
                     }
-
-
-
-
-
-
-
-                    
 
                     break;
 
